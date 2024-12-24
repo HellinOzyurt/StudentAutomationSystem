@@ -1,0 +1,7 @@
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\bin\Debug\StudentAutomationSystem.exe.config
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\bin\Debug\StudentAutomationSystem.exe
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\bin\Debug\StudentAutomationSystem.pdb
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\obj\Debug\StudentAutomationSystem.csproj.AssemblyReference.cache
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\obj\Debug\StudentAutomationSystem.csproj.CoreCompileInputs.cache
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\obj\Debug\StudentAutomationSystem.exe
+C:\Users\Hellin\Desktop\Pratik Kodlar\C#\C# Udemy Kursu\StudentAutomationSystem\obj\Debug\StudentAutomationSystem.pdb
