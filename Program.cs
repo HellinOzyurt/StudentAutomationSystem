@@ -17,7 +17,9 @@ namespace StudentAutomationSystem
             {
 
                 Console.WriteLine("\n1-) Add Record");
-                Console.WriteLine("2-) Exit\n");
+                Console.WriteLine("2-) Update Record");
+                Console.WriteLine("3-) Show Record");
+                Console.WriteLine("4-) Exit\n");
                 Console.WriteLine("Please Select the Transaction You Want to Perform : ");
 
                 choice = int.Parse(Console.ReadLine());
@@ -26,9 +28,15 @@ namespace StudentAutomationSystem
                 switch (choice)
                 {
                     case 1:
-                        addRecord();
+                        AddRecord();
                         break;
                     case 2:
+                        UpdateRecord();
+                        break;
+                    case 3:
+                        ShowRecord();
+                        break;
+                    case 4:
                         Console.WriteLine("\nExited from the Program...");
                         break;
                     default:
@@ -38,7 +46,7 @@ namespace StudentAutomationSystem
 
                 }
 
-            } while (choice != 2);
+            } while (choice != 4);
 
 
             Console.ReadLine();
@@ -54,12 +62,16 @@ namespace StudentAutomationSystem
             }
         }
 
-        static void addRecord()
+        static void AddRecord()
         {
             //Student attributes
+            int id; // identity
             string name;
             int age;
             double grade;
+
+            Console.WriteLine("\nPlease Enter the Student's ID : ");
+            id = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("\nPlease Enter the Student's Name : ");
             name = Console.ReadLine();
@@ -75,8 +87,103 @@ namespace StudentAutomationSystem
                 , name + " " + age + " " + grade + Environment.NewLine);
         }
 
-        static void updateRecord()
+        static void UpdateRecord()
         {
+            string[] students = File.ReadAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt");
+            int id;
+
+            Console.WriteLine("\nPlease enter the ID you want to update :");
+            id = int.Parse(Console.ReadLine());
+            id--; //Because we operate through index
+
+            string name;
+            int age;
+            double grade;
+
+            string[] splitData = students[id].Split(' ');
+
+            id = Convert.ToInt32(splitData[0]);
+            name = splitData[1];
+            age = Convert.ToInt32(splitData[2]);
+            grade = Convert.ToDouble(splitData[3]);
+
+            int choice;
+            Console.WriteLine("\nSelect The Data You Want To Update");
+            Console.WriteLine("1-) Name");
+            Console.WriteLine("2-) Age");
+            Console.WriteLine("3-) Grade");
+            Console.WriteLine("3-) Cancel");
+            choice = int.Parse(Console.ReadLine());
+
+            do
+            {
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("Please enter new name : ");
+                        name = Console.ReadLine();
+                        break;
+                    case 2:
+                        Console.WriteLine("Please enter new age : ");
+                        age = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    case 3:
+                        Console.WriteLine("Please enter new grade : ");
+                        grade = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    case 4:
+                        Console.WriteLine("Update Canceled : ");
+                        break;
+                    default:
+                        Console.WriteLine("\nPlease Select Valid Transaction!\n");
+                        break;
+
+                }
+            } while (choice > 4 || choice < 1);
+
+            string newAddedDatas = id.ToString() + " " + name + " " + age.ToString() + " " + grade.ToString();
+
+
+            students[id] = newAddedDatas;
+            File.WriteAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt", students);
+
+        }
+        static void ShowRecord()
+        {
+            string[] students = File.ReadAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt");
+
+            int[] ids = new int[students.Length];
+            string[] names = new string[students.Length];
+            int[] ages = new int[students.Length];
+            double[] grades = new double[students.Length];
+            string[] splitData;
+
+
+            int i = 0;
+            foreach (var student in students)
+            {
+                splitData = student.Split(' ');
+
+                //0 id
+                //1 name
+                //2 age
+                //3 grade 
+
+                ids[i] = int.Parse(splitData[0]);
+                names[i] = splitData[1];
+                ages[i] = int.Parse(splitData[2]);
+                grades[i] = double.Parse(splitData[3]);
+
+                i++;
+            }
+
+            Console.WriteLine("**********************************");
+            for (i = 0; i < ids.Length; i++)
+            {
+                Console.WriteLine(names[i] + " " + ages[i] + " " + grades[i]);
+            }
+            Console.WriteLine("**********************************");
+
 
         }
 
