@@ -19,7 +19,8 @@ namespace StudentAutomationSystem
                 Console.WriteLine("\n1-) Add Record");
                 Console.WriteLine("2-) Update Record");
                 Console.WriteLine("3-) Show Record");
-                Console.WriteLine("4-) Exit\n");
+                Console.WriteLine("4-) Delete Record");
+                Console.WriteLine("5-) Exit\n");
                 Console.WriteLine("Please Select the Transaction You Want to Perform : ");
 
                 choice = int.Parse(Console.ReadLine());
@@ -37,6 +38,9 @@ namespace StudentAutomationSystem
                         ShowRecord();
                         break;
                     case 4:
+                        DeleteRecord();
+                        break;
+                    case 5:
                         Console.WriteLine("\nExited from the Program...");
                         break;
                     default:
@@ -46,7 +50,7 @@ namespace StudentAutomationSystem
 
                 }
 
-            } while (choice != 4);
+            } while (choice != 5);
 
 
             Console.ReadLine();
@@ -84,7 +88,7 @@ namespace StudentAutomationSystem
 
 
             File.AppendAllText("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt"
-                , name + " " + age + " " + grade + Environment.NewLine);
+                , id + " " name + " " + age + " " + grade + Environment.NewLine);
         }
 
         static void UpdateRecord()
@@ -112,7 +116,7 @@ namespace StudentAutomationSystem
             Console.WriteLine("1-) Name");
             Console.WriteLine("2-) Age");
             Console.WriteLine("3-) Grade");
-            Console.WriteLine("3-) Cancel");
+            Console.WriteLine("4-) Cancel");
             choice = int.Parse(Console.ReadLine());
 
             do
@@ -180,12 +184,71 @@ namespace StudentAutomationSystem
             Console.WriteLine("**********************************");
             for (i = 0; i < ids.Length; i++)
             {
-                Console.WriteLine(names[i] + " " + ages[i] + " " + grades[i]);
+                Console.WriteLine(ids[i] + " " + names[i] + " " + ages[i] + " " + grades[i]);
             }
             Console.WriteLine("**********************************");
 
 
         }
+        static void DeleteRecord()
+        {
+            string[] students = File.ReadAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt");
+            int deletedID;
+
+            Console.WriteLine("Please Enter The ID You Want To Delete");
+            deletedID = int.Parse(Console.ReadLine());
+
+            int[] ids = new int[students.Length];
+            string[] names = new string[students.Length];
+            int[] ages = new int[students.Length];
+            double[] grades = new double[students.Length];
+
+            string[] splitData;
+
+            int i = 0;
+            foreach (var student in students)
+            {
+                //0 id
+                //1 name
+                //2 age
+                //3 grade
+
+                splitData = student.Split(' ');
+
+                ids[i] = int.Parse(splitData[0]);
+                names[i] = splitData[1];
+                ages[i] = int.Parse(splitData[2]);
+                grades[i] = double.Parse(splitData[3]);
+                i++;
+            }
+
+            int deletedRowIndex = 0; //index of the row to be deleted
+            while (true)
+            {
+                if (ids[deletedRowIndex] == deletedID)
+                {
+                    break;
+                }
+                deletedRowIndex++;
+            }
+
+            //Records to be transferred to the new file
+            string[] newStudents = new string[students.Length - 1];
+            int counter = 0;
+            for (i = 0; i < students.Length; i++)
+            {
+                if (i != deletedRowIndex)
+                {
+                    newStudents[counter] = students[i];
+                    counter--;
+                }
+            }
+
+            File.WriteAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt", newStudents);
+
+
+        }
+
 
     }
 }
