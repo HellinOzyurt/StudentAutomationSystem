@@ -20,7 +20,8 @@ namespace StudentAutomationSystem
                 Console.WriteLine("2-) Update Record");
                 Console.WriteLine("3-) Show Record");
                 Console.WriteLine("4-) Delete Record");
-                Console.WriteLine("5-) Exit\n");
+                Console.WriteLine("5-) Show Average of Grades");
+                Console.WriteLine("6-) Exit\n");
                 Console.WriteLine("Please Select the Transaction You Want to Perform : ");
 
                 choice = int.Parse(Console.ReadLine());
@@ -41,6 +42,9 @@ namespace StudentAutomationSystem
                         DeleteRecord();
                         break;
                     case 5:
+                        NotesAverage();
+                        break;
+                    case 6:
                         Console.WriteLine("\nExited from the Program...");
                         break;
                     default:
@@ -50,7 +54,7 @@ namespace StudentAutomationSystem
 
                 }
 
-            } while (choice != 5);
+            } while (choice != 6);
 
 
             Console.ReadLine();
@@ -87,29 +91,54 @@ namespace StudentAutomationSystem
             grade = Convert.ToDouble(Console.ReadLine());
 
 
-            File.AppendAllText("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt"
-                , id + " " name + " " + age + " " + grade + Environment.NewLine);
+            File.AppendAllText("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt", id + " " + name + " " + age + " " + grade + Environment.NewLine);
         }
 
         static void UpdateRecord()
         {
             string[] students = File.ReadAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt");
-            int id;
+            int updatedID;
 
             Console.WriteLine("\nPlease enter the ID you want to update :");
-            id = int.Parse(Console.ReadLine());
-            id--; //Because we operate through index
+            updatedID = int.Parse(Console.ReadLine());
 
-            string name;
-            int age;
-            double grade;
+            int[] ids = new int[students.Length];
+            string[] names = new string[students.Length];
+            int[] ages = new int[students.Length];
+            double[] grades = new double[students.Length];
 
-            string[] splitData = students[id].Split(' ');
+            string[] splitData;
 
-            id = Convert.ToInt32(splitData[0]);
-            name = splitData[1];
-            age = Convert.ToInt32(splitData[2]);
-            grade = Convert.ToDouble(splitData[3]);
+            int i = 0;
+            foreach (var student in students)
+            {
+                //0 id
+                //1 name
+                //2 age
+                //3 grade
+
+                splitData = student.Split(' ');
+
+                ids[i] = int.Parse(splitData[0]);
+                names[i] = splitData[1];
+                ages[i] = int.Parse(splitData[2]);
+                grades[i] = double.Parse(splitData[3]);
+                i++;
+            }
+
+            int updatedRowIndex = 0; //index of the row to be updated
+            while (true)
+            {
+                if (ids[updatedRowIndex] == updatedID)
+                {
+                    break;
+                }
+                updatedRowIndex++;
+            }
+            string name = names[updatedRowIndex];
+            int age = ages[updatedRowIndex];
+            double grade = grades[updatedRowIndex];
+
 
             int choice;
             Console.WriteLine("\nSelect The Data You Want To Update");
@@ -145,10 +174,10 @@ namespace StudentAutomationSystem
                 }
             } while (choice > 4 || choice < 1);
 
-            string newAddedDatas = id.ToString() + " " + name + " " + age.ToString() + " " + grade.ToString();
+            string newAddedDatas = updatedID + " " + name + " " + age.ToString() + " " + grade.ToString();
 
 
-            students[id] = newAddedDatas;
+            students[updatedRowIndex] = newAddedDatas;
             File.WriteAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt", students);
 
         }
@@ -240,7 +269,7 @@ namespace StudentAutomationSystem
                 if (i != deletedRowIndex)
                 {
                     newStudents[counter] = students[i];
-                    counter--;
+                    counter++;
                 }
             }
 
@@ -248,7 +277,25 @@ namespace StudentAutomationSystem
 
 
         }
+        static void NotesAverage()
+        {
+            //We reached all the lines
+            string[] students = File.ReadAllLines("C:\\Users\\Hellin\\Desktop\\Pratik Kodlar\\C#\\C# Udemy Kursu\\StudentAutomationSystem\\StudentData\\studentsInfo.txt");
 
+            double notes;
+            double sum = 0;
+
+            for (int i = 0; i < students.Length; i++)
+            {
+                notes = Convert.ToDouble(students[i].Split(' ')[3]);
+                sum += notes;
+            }
+
+
+            Console.WriteLine("Average student grade: " + sum / students.Length);
+
+
+        }
 
     }
 }
